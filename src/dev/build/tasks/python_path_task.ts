@@ -31,7 +31,7 @@ import { tap, filter, map, toArray } from 'rxjs/operators';
 
 import { scan$, Task } from '../lib';
 
-export const PythoPath: Task = {
+export const PythonPath: Task = {
   description: 'Checking the Python paths in shebangs',
 
   async run(config, log, build) {
