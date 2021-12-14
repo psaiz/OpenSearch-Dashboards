@@ -94,6 +94,7 @@ export async function buildDistributables(log: ToolingLog, options: BuildOptions
 
   await run(Tasks.PathLength);
   await run(Tasks.UuidVerification);
+  await run(Tasks.PythonPath);
 
   /**
    * package platform-specific builds into archives
