@@ -35,10 +35,14 @@ export const PythoPath: Task = {
   description: 'Checking the Python paths in shebangs',
 
   async run(config, log, build) {
-    await exec(log, '/usr/bin/pathfix.py', '', {
-      cwd: config.resolveFromRepo('.'),
-      level: 'info',
-    });
+    if (platform.isLinux()) {
+      await exec(log, '/usr/bin/pathfix.py', '', {
+        cwd: config.resolveFromRepo('.'),
+        level: 'info',
+      });
+    } else {
+      log.info('Skipping the python shebang fixes');
+    }
 
   },
 };
