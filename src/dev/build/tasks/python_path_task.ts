@@ -25,24 +25,22 @@
  * under the License.
  */
 
-import { relative } from 'path';
-
-import { tap, filter, map, toArray } from 'rxjs/operators';
-
-import { scan$, Task } from '../lib';
+import { exec, Task } from '../lib';
 
 export const PythonPath: Task = {
   description: 'Checking the Python paths in shebangs',
 
   async run(config, log, build) {
-    if (platform.isLinux()) {
-      await exec(log, '/usr/bin/pathfix.py', '', {
-        cwd: config.resolveFromRepo('.'),
-        level: 'info',
-      });
-    } else {
-      log.info('Skipping the python shebang fixes');
-    }
-
+    config.getTargetPlatforms().map((platform) =>{
+      if (platform.isLinux()) {
+        log.info("Ready to call pathfix");
+        exec(log, '/usr/bin/pathfix.py', ['-i','/usr/bin/env python3','./build/opensearch-dashboards/node_modules', '-n'], {
+          cwd: config.resolveFromRepo('.'),
+          level: 'info',
+        });
+      } else {
+        log.info('Skipping the python shebang fixes');
+      }
+    })
   },
 };
