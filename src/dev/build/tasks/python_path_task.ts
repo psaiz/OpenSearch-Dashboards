@@ -31,16 +31,18 @@ export const PythonPath: Task = {
   description: 'Checking the Python paths in shebangs',
 
   async run(config, log, build) {
-    config.getTargetPlatforms().map((platform) =>{
+    config.getTargetPlatforms().map((platform) => {
       if (platform.isLinux()) {
-        log.info("Ready to call pathfix");
-        exec(log, '/usr/bin/pathfix.py', ['-i','/usr/bin/env python3','./build/opensearch-dashboards/node_modules', '-n'], {
-          cwd: config.resolveFromRepo('.'),
-          level: 'info',
-        });
+        log.info('Ready to call pathfix');
+        exec(
+          log,
+          '/usr/bin/pathfix.py',
+          ['-i', '/usr/bin/env python3', './build/opensearch-dashboards/node_modules', '-n'],
+          { cwd: config.resolveFromRepo('.'), level: 'info' }
+        );
       } else {
         log.info('Skipping the python shebang fixes');
       }
-    })
+    });
   },
 };
